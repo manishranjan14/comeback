@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEET Study Tracker</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#172033;--muted:#687386;--line:#e4e9f2;--blue:#315efb;--green:#159b72;--red:#d94b59;--amber:#b7791f}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(120deg,#182b68,#315efb);color:white;padding:28px max(18px,calc((100% - 1200px)/2))}
+header h1{margin:0 0 7px;font-size:clamp(24px,4vw,34px)}header p{margin:0;color:#e0e7ff}
+main{max-width:1200px;margin:22px auto;padding:0 16px 40px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 3px 14px #17203308}
+.metric{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}.metric h3{margin:0;font-size:14px;color:var(--muted);font-weight:600}.metric strong{font-size:28px;display:block;margin-top:10px}.icon{font-size:22px}
+.progress{height:8px;background:#edf0f6;border-radius:20px;overflow:hidden;margin-top:12px}.progress span{display:block;height:100%;width:0;background:var(--blue);border-radius:20px;transition:width .2s}
+.layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,1fr);gap:16px;margin-top:16px}
+h2{font-size:19px;margin:0 0 14px}.muted{color:var(--muted);font-size:13px}.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+input,select,textarea,button{font:inherit}input,select,textarea{border:1px solid #d8deea;border-radius:9px;padding:10px;background:white;color:var(--ink);min-width:0}
+.toolbar input{flex:1;min-width:150px}button{border:0;border-radius:9px;padding:10px 13px;background:var(--blue);color:white;font-weight:600;cursor:pointer}button.secondary{background:#eef2ff;color:#2848c7}button.danger{background:#fff0f1;color:#b42332}
+.subject-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}.subject-tabs button{background:#edf0f7;color:#4d5870}.subject-tabs button.active{background:var(--blue);color:white}
+.chapter-list{display:grid;gap:8px;max-height:610px;overflow:auto;padding-right:3px}.chapter{border:1px solid var(--line);border-radius:11px;padding:11px 12px;display:flex;gap:10px;align-items:flex-start}.chapter input{margin-top:3px;accent-color:var(--green);width:17px;height:17px}.chapter label{flex:1;cursor:pointer;line-height:1.35}.chapter small{display:block;color:var(--muted);margin-top:4px}.chapter.done{background:#f0fbf6;border-color:#c5eddd}.chapter.done label{text-decoration:line-through;color:#718176}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:grid;gap:5px}.field label{font-size:13px;color:var(--muted);font-weight:600}.field input,.field select,.field textarea{width:100%}.wide{grid-column:1/-1}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.stat{background:#f7f8fc;border-radius:10px;padding:12px}.stat span{display:block;font-size:12px;color:var(--muted)}.stat strong{display:block;font-size:22px;margin-top:4px}.correct{color:var(--green)}.wrong{color:var(--red)}
+.list{display:grid;gap:8px;margin-top:12px}.item{border:1px solid var(--line);border-radius:10px;padding:11px;display:flex;align-items:flex-start;gap:8px}.item .body{flex:1;min-width:0}.item strong{display:block;overflow-wrap:anywhere}.item small{display:block;color:var(--muted);margin-top:4px}.item button{padding:7px 9px;font-size:12px;white-space:nowrap}
+.empty{color:var(--muted);font-size:14px;padding:16px;text-align:center;border:1px dashed #cfd6e4;border-radius:10px}
+.section-gap{margin-top:16px}.note{background:#fff8e8;border:1px solid #f2dfad;border-radius:12px;padding:12px 14px;color:#77551b;font-size:13px;margin-top:16px}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}}
+@media(max-width:480px){main{padding:0 10px 28px}.grid{gap:8px}.card{padding:13px}.metric strong{font-size:24px}.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}.stats{gap:6px}.stat{padding:9px}.stat strong{font-size:19px}}
+</style></head>
+<body>
+<header><h1>🎯 NEET Study Tracker</h1><p>Track syllabus completion, practice questions, and weak-topic revision — one step at a time.</p></header>
+<main>
+<div class="grid">
+ <section class="card"><div class="metric"><h3>Physics completed</h3><span class="icon">⚡</span></div><strong id="pPct">0%</strong><div class="progress"><span id="pBar"></span></div><p class="muted" id="pCount">0 / 0 chapters</p></section>
+ <section class="card"><div class="metric"><h3>Chemistry completed</h3><span class="icon">🧪</span></div><strong id="cPct">0%</strong><div class="progress"><span id="cBar"></span></div><p class="muted" id="cCount">0 / 0 chapters</p></section>
+ <section class="card"><div class="metric"><h3>Botany completed</h3><span class="icon">🌿</span></div><strong id="bPct">0%</strong><div class="progress"><span id="bBar"></span></div><p class="muted" id="bCount">0 / 0 chapters</p></section>
+ <section class="card"><div class="metric"><h3>Zoology completed</h3><span class="icon">🧬</span></div><strong id="zPct">0%</strong><div class="progress"><span id="zBar"></span></div><p class="muted" id="zCount">0 / 0 chapters</p></section>
+</div>
+<div class="layout">
+ <section class="card">
+  <h2>📚 Syllabus checklist</h2><p class="muted">Select a subject, then tick chapters as you finish them.</p>
+  <div class="subject-tabs" id="tabs">
+   <button class="active" data-sub="Physics">Physics</button><button data-sub="Chemistry">Chemistry</button><button data-sub="Botany">Botany</button><button data-sub="Zoology">Zoology</button>
+  </div>
+  <div class="toolbar"><input id="search" placeholder="Search chapter..." aria-label="Search chapters"><select id="filter" aria-label="Filter chapters"><option value="all">All chapters</option><option value="todo">Not completed</option><option value="done">Completed</option></select><button class="secondary" id="resetSubject">Reset subject</button></div>
+  <div id="chapterList" class="chapter-list"></div>
+  <p class="muted">Syllabus note: chapter names are a study checklist based broadly on NCERT/NEET topics. Check the official NTA/NMC syllabus for your exam year and any topic changes.</p>
+ </section>
+ <div>
+  <section class="card">
+   <h2>📝 Question practice</h2>
+   <p class="muted">Record how many questions you attempted and how many were correct or wrong.</p>
+   <form id="questionForm" class="formgrid">
+    <div class="field"><label for="qSubject">Subject</label><select id="qSubject"><option>Physics</option><option>Chemistry</option><option>Botany</option><option>Zoology</option></select></div>
+    <div class="field"><label for="qChapter">Chapter / topic</label><select id="qChapter" required></select></div>
+    <div class="field"><label for="attempted">Attempted</label><input id="attempted" type="number" min="0" value="0" required></div>
+    <div class="field"><label for="correct">Correct</label><input id="correct" type="number" min="0" value="0" required></div>
+    <div class="field wide"><label for="qDate">Practice date</label><input id="qDate" type="date"></div>
+    <button class="wide" type="submit">Save practice session</button>
+   </form>
+   <div class="stats"><div class="stat"><span>Attempted</span><strong id="totalAttempted">0</strong></div><div class="stat"><span>Correct</span><strong class="correct" id="totalCorrect">0</strong></div><div class="stat"><span>Wrong</span><strong class="wrong" id="totalWrong">0</strong></div></div>
+   <p class="muted" id="accuracy">Accuracy: —</p><div id="questionList" class="list"></div>
+  </section>
+  <section class="card section-gap">
+   <h2>🎯 Weak topics & revision</h2><p class="muted">Add topics you struggle with. Mark them revised only after reviewing notes and solving questions.</p>
+   <form id="weakForm" class="formgrid">
+    <div class="field"><label for="wSubject">Subject</label><select id="wSubject"><option>Physics</option><option>Chemistry</option><option>Botany</option><option>Zoology</option></select></div>
+    <div class="field"><label for="wTopic">Weak topic</label><input id="wTopic" required placeholder="e.g. Electrostatics"></div>
+    <div class="field wide"><label for="wNotes">What is difficult? (optional)</label><textarea id="wNotes" rows="2" placeholder="Formula, concept, or question type..."></textarea></div>
+    <button class="wide" type="submit">Add weak topic</button>
+   </form>
+   <div id="weakList" class="list"></div>
+  </section>
+ </div>
+</div>
+<div class="note"><strong>Quick tip:</strong> Do not mark a chapter complete just because you read it. Try marking it complete after learning the concepts, revising formulas/NCERT, and solving practice questions.</div>
+<footer>Your data is saved in this browser on this device using local storage. It does not sync to another device. Clearing browser data may erase it.</footer>
+</main>
+<script>
+const syllabus={
+Physics:[
+"Physics and Measurement","Mathematical Tools","Motion in a Straight Line","Motion in a Plane","Laws of Motion","Work, Energy and Power","System of Particles and Rotational Motion","Gravitation","Mechanical Properties of Solids","Mechanical Properties of Fluids","Thermal Properties of Matter","Thermodynamics","Kinetic Theory of Gases","Oscillations","Waves","Electric Charges and Fields","Electrostatic Potential and Capacitance","Current Electricity","Moving Charges and Magnetism","Magnetism and Matter","Electromagnetic Induction","Alternating Current","Electromagnetic Waves","Ray Optics and Optical Instruments","Wave Optics","Dual Nature of Radiation and Matter","Atoms","Nuclei","Semiconductor Electronics","Experimental Skills"
+],
+Chemistry:[
+"Some Basic Concepts of Chemistry","Structure of Atom","Classification of Elements and Periodicity","Chemical Bonding and Molecular Structure","Chemical Thermodynamics","Solutions","Equilibrium","Redox Reactions and Electrochemistry","Chemical Kinetics","The p-Block Elements","The d- and f-Block Elements","Coordination Compounds","Purification and Characterisation of Organic Compounds","Some Basic Principles of Organic Chemistry","Hydrocarbons","Organic Compounds Containing Halogens","Organic Compounds Containing Oxygen","Organic Compounds Containing Nitrogen","Biomolecules","Principles Related to Practical Chemistry"
+],
+Botany:[
+"The Living World","Biological Classification","Plant Kingdom","Morphology of Flowering Plants","Anatomy of Flowering Plants","Cell: The Unit of Life","Biomolecules","Cell Cycle and Cell Division","Transport in Plants","Mineral Nutrition","Photosynthesis in Higher Plants","Respiration in Plants","Plant Growth and Development","Sexual Reproduction in Flowering Plants","Principles of Inheritance and Variation","Molecular Basis of Inheritance","Evolution","Microbes in Human Welfare","Biotechnology: Principles and Processes","Biotechnology and Its Applications","Organisms and Populations","Ecosystem","Biodiversity and Conservation"
+],
+Zoology:[
+"Animal Kingdom","Structural Organisation in Animals","Digestion and Absorption","Breathing and Exchange of Gases","Body Fluids and Circulation","Excretory Products and Their Elimination","Locomotion and Movement","Neural Control and Coordination","Chemical Coordination and Integration","Human Reproduction","Reproductive Health","Human Health and Disease","Strategies for Enhancement in Food Production"
+]};
+const key="neetTrackerV1";
+let data;try{data=JSON.parse(localStorage.getItem(key))||{done:{},sessions:[],weak:[]}}catch(e){data={done:{},sessions:[],weak:[]}}
+let active="Physics";
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(key,JSON.stringify(data));renderAll()}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function renderProgress(){const map={Physics:["p","Physics"],Chemistry:["c","Chemistry"],Botany:["b","Botany"],Zoology:["z","Zoology"]};for(const [sub,[prefix,name]] of Object.entries(map)){const list=syllabus[sub],count=list.filter(ch=>data.done[sub+"::"+ch]).length,pct=Math.round(count/list.length*100);$(prefix+"Pct").textContent=pct+"%";$(prefix+"Bar").style.width=pct+"%";$(prefix+"Count").textContent=count+" / "+list.length+" chapters"}}
+function renderChapters(){const q=$("search").value.trim().toLowerCase(),filter=$("filter").value;const list=syllabus[active].filter(ch=>(!q||ch.toLowerCase().includes(q))&&(filter==="all"||(filter==="done"&&data.done[active+"::"+ch])||(filter==="todo"&&!data.done[active+"::"+ch])));$("chapterList").innerHTML=list.length?list.map(ch=>{const id=active+"::"+ch,done=!!data.done[id];return `<div class="chapter ${done?"done":""}"><input type="checkbox" id="${escapeHtml(id)}" data-ch="${escapeHtml(ch)}" ${done?"checked":""}><label for="${escapeHtml(id)}">${escapeHtml(ch)}<small>${done?"Completed":"Not completed"}</small></label></div>`}).join(""):'<div class="empty">No chapters match your search.</div>';document.querySelectorAll("[data-ch]").forEach(el=>el.addEventListener("change",()=>{data.done[active+"::"+el.dataset.ch]=el.checked;save()}));document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("active",b.dataset.sub===active))}
+function updatePracticeChapters(){const subject=$("qSubject").value;const select=$("qChapter");const previous=select.value;select.innerHTML=syllabus[subject].map(ch=>`<option value="${escapeHtml(ch)}">${escapeHtml(ch)}</option>`).join("");if(syllabus[subject].includes(previous))select.value=previous;}
+function renderQuestions(){const attempted=data.sessions.reduce((a,s)=>a+s.attempted,0),correct=data.sessions.reduce((a,s)=>a+s.correct,0),wrong=attempted-correct;$("totalAttempted").textContent=attempted;$("totalCorrect").textContent=correct;$("totalWrong").textContent=wrong;$("accuracy").textContent="Accuracy: "+(attempted?Math.round(correct/attempted*100)+"% correct":"—");$("questionList").innerHTML=data.sessions.length?data.sessions.slice().reverse().map(s=>`<div class="item"><div class="body"><strong>${escapeHtml(s.chapter)} · ${escapeHtml(s.subject)}</strong><small>${escapeHtml(s.date||"No date")} · Attempted ${s.attempted} · Correct ${s.correct} · Wrong ${s.attempted-s.correct}</small></div><button class="danger" data-del-session="${s.id}">Delete</button></div>`).join(""):'<div class="empty">No practice sessions recorded yet.</div>';document.querySelectorAll("[data-del-session]").forEach(b=>b.onclick=()=>{data.sessions=data.sessions.filter(s=>s.id!==b.dataset.delSession);save()})}
+function renderWeak(){const pending=data.weak.filter(w=>!w.revised).length;$("weakList").innerHTML=data.weak.length?data.weak.slice().reverse().map(w=>`<div class="item"><input type="checkbox" aria-label="Mark revised" data-revised="${w.id}" ${w.revised?"checked":""} style="margin-top:4px"><div class="body"><strong>${escapeHtml(w.topic)} · ${escapeHtml(w.subject)}</strong><small>${escapeHtml(w.notes||"No note added")}</small><small>${w.revised?"Revision complete":"Revision pending"}</small></div><button class="danger" data-del-weak="${w.id}">Delete</button></div>`).join(""):'<div class="empty">No weak topics added yet.</div>';document.querySelectorAll("[data-revised]").forEach(el=>el.onchange=()=>{const w=data.weak.find(w=>w.id===el.dataset.revised);if(w)w.revised=el.checked;save()});document.querySelectorAll("[data-del-weak]").forEach(b=>b.onclick=()=>{data.weak=data.weak.filter(w=>w.id!==b.dataset.delWeak);save()})}
+function renderAll(){renderProgress();renderChapters();renderQuestions();renderWeak()}
+$("tabs").addEventListener("click",e=>{const b=e.target.closest("button[data-sub]");if(b){active=b.dataset.sub;renderChapters()}});
+$("search").addEventListener("input",renderChapters);$("filter").addEventListener("change",renderChapters);
+$("resetSubject").onclick=()=>{if(confirm("Reset all chapter completion for "+active+"?")){syllabus[active].forEach(ch=>delete data.done[active+"::"+ch]);save()}};
+$("qSubject").addEventListener("change",updatePracticeChapters);updatePracticeChapters();
+$("questionForm").addEventListener("submit",e=>{e.preventDefault();const attempted=Number($("attempted").value),correct=Number($("correct").value);if(correct>attempted){alert("Correct answers cannot be more than attempted questions.");return}data.sessions.push({id:String(Date.now())+Math.random().toString(16).slice(2),subject:$("qSubject").value,chapter:$("qChapter").value,attempted,correct,date:$("qDate").value});$("attempted").value=0;$("correct").value=0;save()});
+$("weakForm").addEventListener("submit",e=>{e.preventDefault();data.weak.push({id:String(Date.now())+Math.random().toString(16).slice(2),subject:$("wSubject").value,topic:$("wTopic").value.trim(),notes:$("wNotes").value.trim(),revised:false});$("wTopic").value="";$("wNotes").value="";save()});
+$("qDate").value=new Date().toISOString().slice(0,10);renderAll();
+</script>
+</body></html>
